@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#5a3023">
+<title>History Project — Arsip Kemerdekaan Indonesia</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Playfair+Display:wght@400;600;700;800&display=swap');
+
+@font-face{
+  font-family:'Valentine Together';
+  src:url('https://assets.fontdiff.com/webfonts/valentine-together-regular.woff2') format('woff2');
+  font-weight:400;
+  font-display:swap;
+}
+
+:root{
+  --ink:#35251c;
+  --brown:#69402e;
+  --rust:#8b3027;
+  --paper:#ead8b2;
+  --paper-light:#f4e8cc;
+  --aged:#c5a777;
+  --line:#b79b70;
+  --shadow:rgba(38,24,14,.28);
+}
+
+*{box-sizing:border-box}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  margin:0;
+  padding:18px 10px 36px;
+  min-height:100vh;
+  color:var(--ink);
+  font-family:'Playfair Display',Georgia,serif;
+  background:
+    radial-gradient(ellipse at 15% 15%,#8e684744,transparent 25%),
+    radial-gradient(ellipse at 85% 70%,#100b0788,transparent 30%),
+    repeating-linear-gradient(
+      7deg,
+      transparent 0 11px,
+      #e8ca9710 12px,
+      transparent 14px
+    ),
+    linear-gradient(135deg,#5a4030,#2b1d16 58%,#60432e);
+}
+
+button,a{
+  -webkit-tap-highlight-color:transparent;
+}
+
+.app{
+  width:min(100%,460px);
+  min-height:calc(100dvh - 54px);
+  margin:auto;
+  position:relative;
+  overflow:hidden;
+  border:1px solid #9b7952;
+  box-shadow:0 16px 44px #21150fc4;
+  background-color:#e7d2a8;
+  background-image:
+    radial-gradient(ellipse at 8% 8%,#fff1cd 0,transparent 26%),
+    radial-gradient(ellipse at 95% 88%,#b18a5555 0,transparent 25%),
+    radial-gradient(ellipse at 50% 45%,#d7bb8666 0,transparent 68%),
+    repeating-linear-gradient(
+      0deg,
+      #6f4d2709 0 1px,
+      transparent 1px 5px
+    ),
+    repeating-linear-gradient(
+      87deg,
+      transparent 0 17px,
+      #87643b0b 18px,
+      transparent 20px
+    );
+}
+
+.app:before{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  z-index:5;
+  opacity:.45;
+  background:
+    radial-gradient(ellipse at 2% 3%,#9d6f3d66,transparent 20%),
+    radial-gradient(ellipse at 98% 90%,#8b5c2c44,transparent 18%),
+    repeating-linear-gradient(
+      0deg,
+      transparent 0 5px,
+      #70502b0b 6px,
+      transparent 7px
+    );
+}
+
+.page{
+  display:none;
+  position:relative;
+  min-height:calc(100dvh - 54px);
+  padding:24px 21px 20px;
+  animation:fade .3s ease;
+  isolation:isolate;
+  background-image:
+    radial-gradient(ellipse at 4% 8%,#b7894a18,transparent 25%),
+    radial-gradient(ellipse at 94% 94%,#9b6f3b17,transparent 26%);
+}
+
+.page.active{
+  display:flex;
+  flex-direction:column;
+}
+
+@keyframes fade{
+  from{opacity:.25;transform:translateY(5px)}
+  to{opacity:1;transform:none}
+}
+
+.topline{
+  display:flex;
+  justify-content:space-between;
+  gap:8px;
+  align-items:center;
+  border-bottom:1px solid var(--line);
+  padding-bottom:8px;
+  font:10px 'DM Mono',monospace;
+  letter-spacing:1.2px;
+  color:#73533a;
+  text-transform:uppercase;
+}
+
+.stamp{
+  border:2px solid var(--rust);
+  color:var(--rust);
+  font:10px 'DM Mono',monospace;
+  padding:7px 5px;
+  transform:rotate(8deg);
+  letter-spacing:1px;
+  text-align:center;
+  max-width:90px;
+  line-height:1.4;
+  flex-shrink:0;
+}
+
+.script{
+  font-family:'Valentine Together','Brush Script MT',cursive;
+  font-weight:400;
+  line-height:1.15;
+  color:#4a2d20;
+  text-align:center;
+  text-shadow:1px 1px 0 #f4e3bd,2px 3px 0 #a7835b55;
+}
+
+h1,h2,h3,p{margin-top:0}
+
+h1{
+  font-size:clamp(31px,9vw,45px);
+  margin:14px 0 10px;
+}
+
+h2{
+  font-size:clamp(26px,7vw,35px);
+  margin:16px 0 13px;
+}
+
+h3{
+  font-size:19px;
+  margin:0 0 8px;
+}
+
+.kicker{
+  font:10px 'DM Mono',monospace;
+  letter-spacing:1.3px;
+  text-transform:uppercase;
+  color:var(--rust);
+}
+
+.type{
+  font:11px 'DM Mono',monospace;
+  letter-spacing:.3px;
+  color:#725b42;
+}
+
+.cover-title{
+  font-size:clamp(43px,12vw,59px);
+  margin:21px 0 14px;
+  white-space:normal;
+}
+
+.cover-sub{
+  font:11px 'DM Mono',monospace;
+  letter-spacing:2px;
+  text-align:center;
+  color:#6d4c35;
+  margin-bottom:14px;
+}
+
+.collage{
+  position:relative;
+  margin:7px auto 18px;
+  width:88%;
+  max-width:330px;
+  transform:rotate(-1.4deg);
+  padding:10px 10px 24px;
+  background:#f2e5c9;
+  box-shadow:3px 5px 10px var(--shadow);
+  border:1px solid #bba17b;
+}
+
+.collage:before{
+  content:"";
+  position:absolute;
+  width:70px;
+  height:17px;
+  top:-8px;
+  left:calc(50% - 35px);
+  background:#c4a76b99;
+  transform:rotate(2deg);
+  border:1px solid #a78b5c55;
+  z-index:2;
+}
+
+.archive-art{
+  height:190px;
+  position:relative;
+  overflow:hidden;
+  background:#bba47a;
+}
+
+.archive-art img{
+  width:100%;
+  height:100%;
+  display:block;
+  object-fit:cover;
+  filter:sepia(.12) contrast(1.03);
+}
+
+.photo-label{
+  font:10px 'DM Mono',monospace;
+  text-align:center;
+  margin-top:9px;
+  color:#6a5137;
+}
+
+.identity{
+  border-top:1px dashed #a48a63;
+  border-bottom:1px dashed #a48a63;
+  padding:11px 4px;
+  margin:0 0 15px;
+  display:grid;
+  gap:5px;
+}
+
+.identity div{
+  font-size:13px;
+}
+
+.identity strong{font-weight:700}
+
+.members{
+  font-size:11px!important;
+  line-height:1.6;
+  color:#6b543b;
+}
+
+.btnrow{
+  display:flex;
+  gap:9px;
+  margin-top:auto;
+  padding-top:16px;
+}
+
+.btn{
+  border:1px solid #6b4b32;
+  background:#5b3526;
+  color:#f6e7c8;
+  padding:13px 14px;
+  min-height:46px;
+  flex:1;
+  font:11px 'DM Mono',monospace;
+  letter-spacing:1px;
+  cursor:pointer;
+  box-shadow:2px 3px 0 #b49a6f;
+  text-transform:uppercase;
+  transition:transform .15s,background .15s;
+}
+
+.btn:hover{background:#7d3028}
+
+.btn:active{
+  transform:translate(2px,2px);
+  box-shadow:none;
+}
+
+.btn.secondary{
+  background:#dfcba5;
+  color:#4b3022;
+}
+
+.btn:disabled{
+  opacity:.4;
+  cursor:not-allowed;
+}
+
+.chapter-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  margin-bottom:13px;
+}
+
+.chapter-number{
+  font:11px 'DM Mono',monospace;
+  color:var(--rust);
+  border:1px solid var(--rust);
+  padding:7px 9px;
+  transform:rotate(-3deg);
+}
+
+.chapter-page{justify-content:space-between}
+
+.chapter-title{
+  font-size:clamp(31px,9vw,43px);
+  margin:15px 0 16px;
+}
+
+.torn{
+  position:relative;
+  background-color:#f1e4c8;
+  background-image:
+    radial-gradient(ellipse at 15% 20%,#b78e5522,transparent 35%),
+    repeating-linear-gradient(
+      1deg,
+      transparent 0 12px,
+      #76552a0b 13px,
+      transparent 15px
+    );
+  padding:10px;
+  box-shadow:3px 5px 8px #4a2c1d33;
+  transform:rotate(1deg);
+  border:1px solid #c1a77e;
+}
+
+.torn:after{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background:repeating-linear-gradient(
+    135deg,
+    transparent 0 11px,
+    #6d49220a 12px,
+    transparent 13px
+  );
+}
+
+.chapter-visual{
+  height:230px;
+  overflow:hidden;
+  background:#b69a6d;
+  position:relative;
+}
+
+.chapter-visual img{
+  width:100%;
+  height:100%;
+  display:block;
+  object-fit:cover;
+  filter:sepia(.1) contrast(1.03);
+}
+
+.chapter-caption{
+  font:10px 'DM Mono',monospace;
+  line-height:1.5;
+  color:#6b5136;
+  padding:9px 2px 1px;
+}
+
+.note{
+  font-size:14px;
+  line-height:1.7;
+  color:#4a3527;
+}
+
+.pullquote{
+  border-left:3px solid var(--rust);
+  padding:7px 0 7px 12px;
+  margin:15px 0;
+  font-style:italic;
+  color:#694632;
+  font-size:15px;
+}
+
+.story-title{
+  font-size:25px;
+  margin:13px 0 8px;
+}
+
+.story-meta{
+  display:flex;
+  justify-content:space-between;
+  gap:8px;
+  font:9px 'DM Mono',monospace;
+  color:#806447;
+  border-bottom:1px dashed #ae9167;
+  padding-bottom:9px;
+  margin
